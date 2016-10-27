@@ -1,0 +1,39 @@
+resource_registry:
+  OS::TripleO::NodeUserData: /home/stack/custom-templates/first-boot-template.yaml
+  OS::TripleO::NodeExtraConfigPost: /home/stack/custom-templates/post-deploy-template.yaml
+
+parameter_defaults:
+  NovaComputeExtraConfig:
+    ceph::profile::params::osd_journal_size: 5120
+    ceph::profile::params::osd_pool_default_pg_num: 256
+    ceph::profile::params::osd_pool_default_pgp_num: 256
+    ceph::profile::params::osd_pool_default_size: 3
+    ceph::profile::params::osd_pool_default_min_size: 2
+    ceph::profile::params::osd_recovery_max_active: 3
+    ceph::profile::params::osd_max_backfills: 1
+    ceph::profile::params::osd_recovery_op_priority: 2
+    ceph::profile::params::osds:
+      '/dev/sda':
+        journal: '/dev/sdm'
+      '/dev/sdb':
+        journal: '/dev/sdm'  
+      '/dev/sdc':
+        journal: '/dev/sdm'
+      '/dev/sdd':
+        journal: '/dev/sdm'
+      '/dev/sde':
+        journal: '/dev/sdn'
+      '/dev/sdf':
+        journal: '/dev/sdn'
+      '/dev/sdg':
+        journal: '/dev/sdn'
+      '/dev/sdh':
+        journal: '/dev/sdn'
+      '/dev/sdi':
+        journal: '/dev/sdo'
+      '/dev/sdj':
+        journal: '/dev/sdo'
+      '/dev/sdk':
+        journal: '/dev/sdo'
+      '/dev/sdl':
+        journal: '/dev/sdo'

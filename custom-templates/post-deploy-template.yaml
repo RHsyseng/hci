@@ -1,0 +1,29 @@
+heat_template_version: 2014-10-16
+
+description: >
+  post-deployment stub
+
+parameters:
+  servers:
+    type: json
+
+resources:
+
+  ExtraConfig:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      group: script
+      config: |
+        #!/usr/bin/env bash
+        {
+        if [[ $HOSTNAME =~ "compute" ]]; then
+          echo "post-deploy script not executing anything but this echo"        
+        fi
+        } 2>&1 > /root/post_deploy_heat_output.txt 
+
+  ExtraDeployments:
+    type: OS::Heat::SoftwareDeployments
+    properties:
+      servers:  {get_param: servers}
+      config: {get_resource: ExtraConfig}
+      actions: ['CREATE', 'UPDATE' ]
