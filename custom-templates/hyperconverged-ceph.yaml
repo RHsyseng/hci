@@ -1,7 +1,7 @@
 # If not using an isolated StorageMgmt network, the following regitry mapping
 # should be commented.
 resource_registry:
-  OS::TripleO::Compute::Ports::StorageMgmtPort: /home/stack/templates/network/ports/storage_mgmt.yaml
+  OS::TripleO::Compute::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt.yaml
 
 parameter_defaults:
   ComputeServices:
