@@ -126,15 +126,15 @@ resources:
               addresses:
                 -
                   ip_netmask: {get_param: StorageIpSubnet}
-            -
-              type: vlan
-              device: em1
-              mtu: 1500
-              vlan_id: {get_param: InternalApiNetworkVlanID}
-              use_dhcp: false
-              addresses:
-                -
-                  ip_netmask: {get_param: InternalApiIpSubnet}
+            # -
+            #   type: vlan
+            #   device: em1
+            #   mtu: 1500
+            #   vlan_id: {get_param: InternalApiNetworkVlanID}
+            #   use_dhcp: false
+            #   addresses:
+            #     -
+            #       ip_netmask: {get_param: InternalApiIpSubnet}
             -
               # Unused Interface
               type: interface
@@ -162,6 +162,13 @@ resources:
                   addresses:
                   -
                     ip_netmask: {get_param: TenantIpSubnet}
+                -
+                  type: vlan
+                  mtu: 1500
+                  vlan_id: {get_param: InternalApiNetworkVlanID}
+                  addresses:
+                  -
+                    ip_netmask: {get_param: InternalApiIpSubnet}               
             # Uncomment when including environments/network-management.yaml
             #-
             #  type: interface
