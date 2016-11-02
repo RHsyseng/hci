@@ -10,9 +10,4 @@ time openstack overcloud deploy --templates \
 --control-scale 3 \
 --compute-flavor compute \
 --compute-scale 3 \
---ntp-server 10.5.26.10 \
---neutron-bridge-mappings datacentre:br-ex,tenant:br-tenant \
---neutron-network-type vlan \
---neutron-network-vlan-ranges tenant:4051:4060 \
---neutron-disable-tunneling 
-
+--ntp-server 10.5.26.10 

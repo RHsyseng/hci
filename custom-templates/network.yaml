@@ -1,7 +1,13 @@
 resource_registry:
   OS::TripleO::Controller::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/controller-nics.yaml
-  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml   
+  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+
 parameter_defaults:
+  NeutronBridgeMappings: 'datacentre:br-ex,tenant:br-tenant'
+  NeutronNetworkType: 'vlan'
+  NeutronNetworkVlanRanges: 'tenant:4051:4060'
+  NeutronTunnelType: ''
+
   # Internal API used for private OpenStack Traffic
   InternalApiNetCidr: 192.168.2.0/24
   InternalApiAllocationPools: [{'start': '192.168.2.10', 'end': '192.168.2.200'}]
@@ -37,5 +43,4 @@ parameter_defaults:
   DnsServers: ["10.19.143.247","10.19.143.248"]
 
   # Set to "br-ex" if using floating IPs on native VLAN on bridge br-ex
-  #NeutronExternalNetworkBridge: "''"
   NeutronExternalNetworkBridge: "br-ex"
