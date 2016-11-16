@@ -118,16 +118,6 @@ resources:
                   name: p2p2
                   # force the MAC address of the bridge to this interface
                   primary: true
-            # -
-            #   type: vlan
-            #   device: em1
-            #   mtu: 1500
-            #   use_dhcp: false
-            #   vlan_id: {get_param: InternalApiNetworkVlanID}
-            #   addresses:
-            #     -
-            #       ip_netmask: {get_param: InternalApiIpSubnet}
-
             -
               # Unused Interface
               type: interface
@@ -147,11 +137,12 @@ resources:
               use_dhcp: false
               defroute: false
             -
-              # Unused Interface
               type: interface
               name: p2p4
               use_dhcp: false
-              defroute: false
+              addresses:
+                -
+                  ip_netmask: {get_param: InternalApiIpSubnet}
             -
               type: interface
               name: em2
@@ -196,13 +187,6 @@ resources:
                   addresses:
                   -
                     ip_netmask: {get_param: TenantIpSubnet}
-                -
-                  type: vlan
-                  mtu: 1500
-                  vlan_id: {get_param: InternalApiNetworkVlanID}
-                  addresses:
-                  -
-                    ip_netmask: {get_param: InternalApiIpSubnet}               
             # Uncomment when including environments/network-management.yaml
             #-
             #  type: interface
