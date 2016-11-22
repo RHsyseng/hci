@@ -7,6 +7,8 @@ parameter_defaults:
   NeutronNetworkType: 'vlan'
   NeutronNetworkVlanRanges: 'tenant:4051:4060'
   NeutronTunnelType: ''
+  # Set to "br-ex" if using floating IPs on native VLAN on bridge br-ex
+  NeutronExternalNetworkBridge: "''"
 
   # Internal API used for private OpenStack Traffic
   InternalApiNetCidr: 192.168.2.0/24
@@ -41,6 +43,3 @@ parameter_defaults:
   EC2MetadataIp: 192.168.1.1
   # Define the DNS servers (maximum 2) for the overcloud nodes
   DnsServers: ["10.19.143.247","10.19.143.248"]
-
-  # Set to "br-ex" if using floating IPs on native VLAN on bridge br-ex
-  NeutronExternalNetworkBridge: "br-ex"
