@@ -4,10 +4,8 @@ resource_registry:
 
 parameter_defaults:
   NeutronBridgeMappings: 'datacentre:br-ex,tenant:br-tenant'
-  NeutronNetworkType: 'vlan'
-  NeutronNetworkVlanRanges: 'tenant:4051:4060'
-  NeutronTunnelType: ''
-  # Set to "br-ex" if using floating IPs on native VLAN on bridge br-ex
+  NeutronNetworkType: 'vxlan'
+  NeutronTunnelType: 'vxlan'
   NeutronExternalNetworkBridge: "''"
 
   # Internal API used for private OpenStack Traffic
