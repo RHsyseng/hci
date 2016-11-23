@@ -1,0 +1,9 @@
+parameter_defaults:
+  NtpServer: 10.5.26.10
+  ControllerCount: 3
+  ComputeCount: 3
+  CephStorageCount: 0
+  OvercloudControlFlavor: 'control'
+  OvercloudComputeFlavor: 'compute'
+  OvercloudCephStorageFlavor: 'ceph-storage'
+

@@ -6,8 +6,4 @@ time openstack overcloud deploy --templates \
 -e ~/custom-templates/network.yaml \
 -e ~/custom-templates/hyperconverged-ceph.yaml \
 -e ~/custom-templates/ceph.yaml \
---control-flavor control \
---control-scale 3 \
---compute-flavor compute \
---compute-scale 3 \
---ntp-server 10.5.26.10 
+-e ~/custom-templates/layout.yaml
