@@ -3,7 +3,7 @@ resource_registry:
   OS::TripleO::NodeExtraConfigPost: /home/stack/custom-templates/post-deploy-template.yaml
 
 parameter_defaults:
-  NovaComputeExtraConfig:
+  OsdComputeExtraConfig:
     ceph::profile::params::osd_journal_size: 5120
     ceph::profile::params::osd_pool_default_pg_num: 256
     ceph::profile::params::osd_pool_default_pgp_num: 256

@@ -1,9 +1,70 @@
+resource_registry:
+
+  OS::TripleO::Controller::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Controller::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::Controller::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::Controller::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+  OS::TripleO::OsdCompute::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::OsdCompute::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::OsdCompute::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::OsdCompute::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+
 parameter_defaults:
   NtpServer: 10.5.26.10
+  
   ControllerCount: 3
-  ComputeCount: 3
+  ComputeCount: 0
   CephStorageCount: 0
-  OvercloudControlFlavor: 'control'
-  OvercloudComputeFlavor: 'compute'
-  OvercloudCephStorageFlavor: 'ceph-storage'
+  OsdComputeCount: 3
+
+  ControllerSchedulerHints:
+    'capabilities:node': 'controller-%index%'
+  NovaComputeSchedulerHints:
+    'capabilities:node': 'compute-%index%'
+  CephStorageSchedulerHints:
+    'capabilities:node': 'ceph-storage-%index%'
+  OsdComputeSchedulerHints:
+    'capabilities:node': 'osd-compute-%index%'
+
+  ControllerIPs:
+    internal_api:
+      - 192.168.2.200
+      - 192.168.2.201
+      - 192.168.2.202
+    tenant:
+      - 192.168.3.200
+      - 192.168.3.201
+      - 192.168.3.202
+    storage:
+      - 172.16.1.200      
+      - 172.16.1.201
+      - 172.16.1.202
+    storage_mgmt:
+      - 172.16.2.200      
+      - 172.16.2.201
+      - 172.16.2.202
+  
+  OsdComputeIPs:
+    internal_api:
+      - 192.168.2.203
+      - 192.168.2.204
+      - 192.168.2.205
+      #- 192.168.2.206      
+    tenant:
+      - 192.168.3.203
+      - 192.168.3.204
+      - 192.168.3.205
+      #- 192.168.3.206      
+    storage:
+      - 172.16.1.203      
+      - 172.16.1.204
+      - 172.16.1.205
+      #- 172.16.1.206
+    storage_mgmt:
+      - 172.16.2.203      
+      - 172.16.2.204
+      - 172.16.2.205
+      #- 172.16.2.206
 

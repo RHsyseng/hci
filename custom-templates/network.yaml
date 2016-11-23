@@ -1,5 +1,5 @@
 resource_registry:
-  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+  OS::TripleO::OsdCompute::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
   OS::TripleO::Controller::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/controller-nics.yaml
 
 parameter_defaults:
