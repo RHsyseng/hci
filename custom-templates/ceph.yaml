@@ -3,8 +3,8 @@ resource_registry:
   OS::TripleO::NodeExtraConfigPost: /home/stack/custom-templates/post-deploy-template.yaml
 
 parameter_defaults:
-  OsdComputeExtraConfig:
-    ceph::profile::params::osd_journal_size: 5120
+  ExtraConfig:
+    ceph::profile::params::fsid: eb2bb192-b1c9-11e6-9205-525400330666    
     ceph::profile::params::osd_pool_default_pg_num: 256
     ceph::profile::params::osd_pool_default_pgp_num: 256
     ceph::profile::params::osd_pool_default_size: 3
@@ -12,6 +12,8 @@ parameter_defaults:
     ceph::profile::params::osd_recovery_max_active: 3
     ceph::profile::params::osd_max_backfills: 1
     ceph::profile::params::osd_recovery_op_priority: 2
+  OsdComputeExtraConfig:
+    ceph::profile::params::osd_journal_size: 5120
     ceph::profile::params::osds:
       '/dev/sda':
         journal: '/dev/sdm'
