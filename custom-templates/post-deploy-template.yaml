@@ -16,7 +16,7 @@ resources:
       config: |
         #!/usr/bin/env bash
         {
-        if [[ $HOSTNAME =~ "compute" ]]; then
+        if [[ $HOSTNAME = *"osd-compute"* ]]; then
           echo "post-deploy script not executing anything but this echo"        
         fi
         } 2>&1 > /root/post_deploy_heat_output.txt 
