@@ -1,7 +1,4 @@
 parameter_defaults:
-  OsdComputeExtraConfig:
+  ExtraConfig:
     nova::compute::reserved_host_memory: 181000
-  ControllerExtraConfig:
-    nova::scheduler::filter::cpu_allocation_ratio: 8.2
-    compute_classes:
-      - '::nova::scheduler::filter'
+    nova::cpu_allocation_ratio: 8.2
