@@ -1,32 +1,24 @@
 heat_template_version: 2014-10-16
 
-description: >
-  post-deployment stub
-
 parameters:
   servers:
     type: json
 
 resources:
+
   ExtraConfig:
     type: OS::Heat::SoftwareConfig
     properties:
       group: script
-      config: |
-        #!/usr/bin/env bash
-        {
-        if [[ $HOSTNAME = *"osd-compute"* ]]; then
-          # TODO1: do not pull from Internet and make the integration clean
-          curl https://raw.githubusercontent.com/RHsyseng/hci/76af06d385cd12d771f7f4f2b6b7fdbe534a2646/custom-templates/numa-systemd-osd.sh > /tmp/numa-systemd-osd.sh
-          if [[ $(md5sum /tmp/numa-systemd-osd.sh | awk {'print $1'}) == c564ae5849660170ad76f1f179685a3c ]]; then
-            bash /tmp/numa-systemd-osd.sh em2
-          fi
-        fi
-        } 2>&1 > /root/post_deploy_heat_output.txt 
-
+      inputs:
+        - name: OSD_NUMA_INTERFACE
+      config: {get_file: numa-systemd-osd.sh}
+      
   ExtraDeployments:
     type: OS::Heat::SoftwareDeployments
     properties:
-      servers:  {get_param: servers}
+      servers: {get_param: servers}
       config: {get_resource: ExtraConfig}
-      actions: ['CREATE', 'UPDATE' ]
+      input_values:
+        OSD_NUMA_INTERFACE: 'em2'
+      actions: ['CREATE']
