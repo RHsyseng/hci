@@ -27,7 +27,7 @@ if [[ `hostname` = *"ceph"* ]] || [[ `hostname` = *"osd-compute"* ]]; then
 	fi 
 	if [[ "$NIC" == "$OSD_NUMA_INTERFACE" ]]; then
 	    # because $NIC is the $OSD_NUMA_INTERFACE,
-	    # the NUMASOCKET has been set correclty above
+	    # the NUMASOCKET has been set correctly above
 	    break # so stop looking 
 	fi 
     done < <(lstopo-no-graphics | tr -d [:punct:] | egrep "NUMANode|$OSD_NUMA_INTERFACE")
