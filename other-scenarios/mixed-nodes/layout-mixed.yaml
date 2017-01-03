@@ -1,0 +1,104 @@
+resource_registry:
+  
+  OS::TripleO::Controller::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Controller::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::Controller::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::Controller::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+  
+  OS::TripleO::Compute::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::Compute::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::Compute::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::Compute::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+  OS::TripleO::CephStorage::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::CephStorage::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::CephStorage::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::CephStorage::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+  OS::TripleO::OsdComputeSix::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::OsdComputeSix::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::OsdComputeSix::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::OsdComputeSix::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+  OS::TripleO::OsdComputeTwelve::Ports::InternalApiPort: /usr/share/openstack-tripleo-heat-templates/network/ports/internal_api_from_pool.yaml
+  OS::TripleO::OsdComputeTwelve::Ports::TenantPort: /usr/share/openstack-tripleo-heat-templates/network/ports/tenant_from_pool.yaml
+  OS::TripleO::OsdComputeTwelve::Ports::StoragePort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_from_pool.yaml
+  OS::TripleO::OsdComputeTwelve::Ports::StorageMgmtPort: /usr/share/openstack-tripleo-heat-templates/network/ports/storage_mgmt_from_pool.yaml
+
+parameter_defaults:
+  NtpServer: 10.5.26.10
+
+  ControllerCount: 3
+  ComputeCount: 1
+  CephStorageCount: 1
+  OsdComputeTwelveCount: 1
+  OsdComputeSixCount: 1
+
+  ControllerSchedulerHints:
+    'capabilities:node': 'controller-%index%'
+  NovaComputeSchedulerHints:
+    'capabilities:node': 'compute-%index%'
+  CephStorageSchedulerHints:
+    'capabilities:node': 'ceph-storage-%index%'
+  OsdComputeTwelveSchedulerHints:
+    'capabilities:node': 'osd-compute-twelve-%index%'
+  OsdComputeSixSchedulerHints:
+    'capabilities:node': 'osd-compute-six-%index%'
+    
+  ControllerIPs:
+    internal_api:
+      - 192.168.2.200
+      - 192.168.2.201
+      - 192.168.2.202
+    tenant:
+      - 192.168.3.200
+      - 192.168.3.201
+      - 192.168.3.202
+    storage:
+      - 172.16.1.200      
+      - 172.16.1.201
+      - 172.16.1.202
+    storage_mgmt:
+      - 172.16.2.200      
+      - 172.16.2.201
+      - 172.16.2.202
+
+  NovaComputeIPs:
+    internal_api:
+      - 192.168.2.203
+    tenant:
+      - 192.168.3.203
+    storage:
+      - 172.16.1.203      
+    storage_mgmt:
+      - 172.16.2.203
+      
+  CephStorageIPs:
+    internal_api:
+      - 192.168.2.204
+    tenant:
+      - 192.168.3.204
+    storage:
+      - 172.16.1.204     
+    storage_mgmt:
+      - 172.16.2.204      
+    
+  OsdComputeSixIPs:
+    internal_api:
+      - 192.168.2.205
+    tenant:
+      - 192.168.3.205
+    storage:
+      - 172.16.1.205
+    storage_mgmt:
+      - 172.16.2.205
+
+  OsdComputeTwelveIPs:
+    internal_api:
+      - 192.168.2.206      
+    tenant:
+      - 192.168.3.206      
+    storage:
+      - 172.16.1.206
+    storage_mgmt:
+      - 172.16.2.206

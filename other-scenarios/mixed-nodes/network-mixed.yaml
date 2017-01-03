@@ -1,0 +1,46 @@
+resource_registry:
+  OS::TripleO::Controller::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/controller-nics.yaml  
+  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+  OS::TripleO::CephStorage::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+  OS::TripleO::OsdComputeTwelve::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+  OS::TripleO::OsdComputeSix::Net::SoftwareConfig: /home/stack/custom-templates/nic-configs/compute-nics.yaml
+
+parameter_defaults:
+  NeutronBridgeMappings: 'datacentre:br-ex,tenant:br-tenant'
+  NeutronNetworkType: 'vxlan'
+  NeutronTunnelType: 'vxlan'
+  NeutronExternalNetworkBridge: "''"
+
+  # Internal API used for private OpenStack Traffic
+  InternalApiNetCidr: 192.168.2.0/24
+  InternalApiAllocationPools: [{'start': '192.168.2.10', 'end': '192.168.2.200'}]
+  InternalApiNetworkVlanID: 4049
+
+  # Tenant Network Traffic - will be used for VXLAN over VLAN
+  TenantNetCidr: 192.168.3.0/24
+  TenantAllocationPools: [{'start': '192.168.3.10', 'end': '192.168.3.200'}]
+  TenantNetworkVlanID: 4050
+
+  # Public Storage Access - e.g. Nova/Glance <--> Ceph
+  StorageNetCidr: 172.16.1.0/24
+  StorageAllocationPools: [{'start': '172.16.1.10', 'end': '172.16.1.200'}]
+  StorageNetworkVlanID: 4046
+
+  # Private Storage Access - i.e. Ceph background cluster/replication
+  StorageMgmtNetCidr: 172.16.2.0/24
+  StorageMgmtAllocationPools: [{'start': '172.16.2.10', 'end': '172.16.2.200'}]
+  StorageMgmtNetworkVlanID: 4047
+
+  # External Networking Access - Public API Access
+  ExternalNetCidr: 10.19.137.0/21
+  # Leave room for floating IPs in the External allocation pool (if required)
+  ExternalAllocationPools: [{'start': '10.19.139.37', 'end': '10.19.139.48'}]
+  # Set to the router gateway on the external network
+  ExternalInterfaceDefaultRoute: 10.19.143.254
+
+  # Gateway router for the provisioning network (or Undercloud IP)
+  ControlPlaneDefaultRoute: 192.168.1.1
+  # The IP address of the EC2 metadata server. Generally the IP of the Undercloud
+  EC2MetadataIp: 192.168.1.1
+  # Define the DNS servers (maximum 2) for the overcloud nodes
+  DnsServers: ["10.19.143.247","10.19.143.248"]

@@ -1,0 +1,10 @@
+parameter_defaults:
+  ComputeExtraConfig:
+    nova::compute::reserved_host_memory: 2048
+    nova::cpu_allocation_ratio: 16
+  OsdComputeTwelveExtraConfig:
+    nova::compute::reserved_host_memory: 181000
+    nova::cpu_allocation_ratio: 8.2        
+  OsdComputeSixExtraConfig:    
+    nova::compute::reserved_host_memory: 19000
+    nova::cpu_allocation_ratio: 8.9        
