@@ -6,5 +6,5 @@ time openstack overcloud deploy --templates \
 -e /usr/share/openstack-tripleo-heat-templates/environments/storage-environment.yaml \
 -e ~/custom-templates/network.yaml \
 -e ~/custom-templates/ceph.yaml \
--e ~/custom-templates/compute-params.yaml \
+-e ~/custom-templates/compute.yaml \
 -e ~/custom-templates/layout.yaml
