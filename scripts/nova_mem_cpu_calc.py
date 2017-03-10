@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Filename:                nova_mem_cpu_calc.py
 # Supported Langauge(s):   Python 2.7.x
-# Time-stamp:              <2016-06-20 18:54:47 jfulton> 
+# Time-stamp:              <2017-03-10 20:31:18 jfulton> 
 # -------------------------------------------------------
 # This program was originally written by Ben England
 # -------------------------------------------------------
@@ -63,8 +63,9 @@ print "- Average guest CPU utilization: %.0f%%" % average_guest_util_percent
 left_over_mem = mem - (GB_per_OSD * osds)
 number_of_guests = int(left_over_mem / 
                        (average_guest_size + GB_overhead_per_guest))
-nova_reserved_mem_MB = MB_per_GB * int(left_over_mem - 
-                       (number_of_guests * GB_overhead_per_guest))
+nova_reserved_mem_MB = MB_per_GB * (
+                        (GB_per_OSD * osds) + 
+                        (number_of_guests * GB_overhead_per_guest))
 nonceph_cores = cores - (cores_per_OSD * osds)
 guest_vCPUs = nonceph_cores / average_guest_util
 cpu_allocation_ratio = guest_vCPUs / cores
@@ -77,13 +78,12 @@ print "- number of guest vCPUs allowed = %d" % int(guest_vCPUs)
 print "- nova.conf reserved_host_memory = %d MB" % nova_reserved_mem_MB
 print "- nova.conf cpu_allocation_ratio = %f" % cpu_allocation_ratio
 
-if nova_reserved_mem_MB < (mem * 0.5):
+if nova_reserved_mem_MB > (MB_per_GB * mem * 0.8):
     print "ERROR: you do not have enough memory to run hyperconverged!"
     sys.exit(NOTOK)
 
 if cpu_allocation_ratio < 0.5:
-    print "ERROR: you do not have enough CPU to run hyperconverged!"
-    sys.exit(NOTOK)
+    print "WARNING: you may not have enough CPU to run hyperconverged!"
 
 if cpu_allocation_ratio > 16.0:
     print(
