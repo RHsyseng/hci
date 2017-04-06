@@ -1,3 +1,13 @@
+# Valid for Newton/RH-OSP10 ONLY
+# 
+# If using Mitaka/RH-OSP11, then:
+# 
+#  cp /usr/share/openstack-tripleo-heat-templates/roles_data.yaml ~/custom-templates/custom-roles.yaml
+#  vi ~/custom-templates/custom-roles.yaml 
+# 
+# and then edit Mitaka versin to compose a OsdCompute by copying Compute 
+# Then add "- OS::TripleO::Services::CephOSD"
+# 
 # Specifies which roles (groups of nodes) will be deployed
 # Note this is used as an input to the various *.j2.yaml
 # jinja2 templates, so that they are converted into *.yaml
