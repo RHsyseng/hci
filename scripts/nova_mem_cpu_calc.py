@@ -39,7 +39,7 @@ def usage(msg):
      "Avg-guest-size-GB Avg-guest-CPU-util") % sys.argv[0])
   sys.exit(NOTOK)
 
-if len(argv) < 5: usage("Too few command line params")
+if len(argv) < 6: usage("Too few command line params")
 try:
   mem = int(argv[1])
   cores = int(argv[2])
