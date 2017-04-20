@@ -19,6 +19,12 @@ if [[ `hostname` = *"ceph"* ]] || [[ `hostname` = *"osd-compute"* ]]; then
 	fi
     done
 
+    if [[ ! $(lstopo-no-graphics | tr -d [:punct:] | egrep "NUMANode|$OSD_NUMA_INTERFACE") ]];
+    then
+	echo "No NUMAnodes found. Exiting."
+	exit 1
+    fi
+    
     # Find the NUMA socket of the $OSD_NUMA_INTERFACE
     declare -A NUMASOCKET
     while read TYPE SOCKET_NUM NIC ; do 
