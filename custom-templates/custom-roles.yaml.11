@@ -1,13 +1,4 @@
-# Valid for Newton/RH-OSP10 ONLY
-# 
-# If using Mitaka/RH-OSP11, then:
-# 
-#  cp /usr/share/openstack-tripleo-heat-templates/roles_data.yaml ~/custom-templates/custom-roles.yaml
-#  vi ~/custom-templates/custom-roles.yaml 
-# 
-# and then edit Mitaka versin to compose a OsdCompute by copying Compute 
-# Then add "- OS::TripleO::Services::CephOSD"
-# 
+# Valid for Newton/RH-OSP11 ONLY
 # Specifies which roles (groups of nodes) will be deployed
 # Note this is used as an input to the various *.j2.yaml
 # jinja2 templates, so that they are converted into *.yaml
@@ -24,31 +15,44 @@
 # defaults to '%stackname%-{{role.name.lower()}}-%index%'
 # sets the default for {{role.name}}HostnameFormat parameter in overcloud.yaml
 #
+# disable_constraints: (boolean) optional, whether to disable Nova and Glance
+# constraints for each role specified in the templates.
+#
+# disable_upgrade_deployment: (boolean) optional, whether to run the
+# ansible upgrade steps for all services that are deployed on the role. If set
+# to True, the operator will drive the upgrade for this role's nodes.
+#
+# upgrade_batch_size: (number): batch size for upgrades where tasks are
+# specified by services to run in batches vs all nodes at once.
+# This defaults to 1, but larger batches may be specified here.
+#
 # ServicesDefault: (list) optional default list of services to be deployed
 # on the role, defaults to an empty list. Sets the default for the
 # {{role.name}}Services parameter in overcloud.yaml
 
-- name: Controller
+- name: Controller # the 'primary' role goes first
   CountDefault: 1
   ServicesDefault:
     - OS::TripleO::Services::CACerts
+    - OS::TripleO::Services::CephMds
     - OS::TripleO::Services::CephMon
     - OS::TripleO::Services::CephExternal
+    - OS::TripleO::Services::CephRbdMirror
     - OS::TripleO::Services::CephRgw
     - OS::TripleO::Services::CinderApi
     - OS::TripleO::Services::CinderBackup
     - OS::TripleO::Services::CinderScheduler
     - OS::TripleO::Services::CinderVolume
-    - OS::TripleO::Services::Core
+    - OS::TripleO::Services::Congress
     - OS::TripleO::Services::Kernel
     - OS::TripleO::Services::Keystone
     - OS::TripleO::Services::GlanceApi
-    - OS::TripleO::Services::GlanceRegistry
     - OS::TripleO::Services::HeatApi
     - OS::TripleO::Services::HeatApiCfn
     - OS::TripleO::Services::HeatApiCloudwatch
     - OS::TripleO::Services::HeatEngine
     - OS::TripleO::Services::MySQL
+    - OS::TripleO::Services::MySQLClient
     - OS::TripleO::Services::NeutronDhcpAgent
     - OS::TripleO::Services::NeutronL3Agent
     - OS::TripleO::Services::NeutronMetadataAgent
@@ -64,15 +68,18 @@
     - OS::TripleO::Services::NovaConductor
     - OS::TripleO::Services::MongoDb
     - OS::TripleO::Services::NovaApi
+    - OS::TripleO::Services::NovaPlacement
     - OS::TripleO::Services::NovaMetadata
     - OS::TripleO::Services::NovaScheduler
     - OS::TripleO::Services::NovaConsoleauth
     - OS::TripleO::Services::NovaVncProxy
+    - OS::TripleO::Services::Ec2Api
     - OS::TripleO::Services::Ntp
     - OS::TripleO::Services::SwiftProxy
     - OS::TripleO::Services::SwiftStorage
     - OS::TripleO::Services::SwiftRingBuilder
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::CeilometerApi
     - OS::TripleO::Services::CeilometerCollector
@@ -104,11 +111,25 @@
     - OS::TripleO::Services::OpenDaylightOvs
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
+    - OS::TripleO::Services::Collectd
+    - OS::TripleO::Services::BarbicanApi
+    - OS::TripleO::Services::PankoApi
+    - OS::TripleO::Services::Tacker
+    - OS::TripleO::Services::Zaqar
+    - OS::TripleO::Services::OVNDBs
+    - OS::TripleO::Services::NeutronML2FujitsuCfab
+    - OS::TripleO::Services::NeutronML2FujitsuFossw
+    - OS::TripleO::Services::CinderHPELeftHandISCSI
+    - OS::TripleO::Services::Etcd
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::OctaviaApi
+    - OS::TripleO::Services::OctaviaHealthManager
+    - OS::TripleO::Services::OctaviaHousekeeping
+    - OS::TripleO::Services::OctaviaWorker
 
 - name: Compute
   CountDefault: 1
-  HostnameFormatDefault: '%stackname%-compute-%index%'
+  disable_upgrade_deployment: True
   ServicesDefault:
     - OS::TripleO::Services::CACerts
     - OS::TripleO::Services::CephClient
@@ -116,6 +137,7 @@
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::Ntp
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::NovaCompute
     - OS::TripleO::Services::NovaLibvirt
     - OS::TripleO::Services::Kernel
@@ -130,7 +152,8 @@
     - OS::TripleO::Services::OpenDaylightOvs
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::Collectd
 
 - name: BlockStorage
   ServicesDefault:
@@ -140,13 +163,16 @@
     - OS::TripleO::Services::Ntp
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::TripleoPackages
     - OS::TripleO::Services::TripleoFirewall
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::Collectd
 
 - name: ObjectStorage
+  disable_upgrade_deployment: True
   ServicesDefault:
     - OS::TripleO::Services::CACerts
     - OS::TripleO::Services::Kernel
@@ -154,12 +180,14 @@
     - OS::TripleO::Services::SwiftStorage
     - OS::TripleO::Services::SwiftRingBuilder
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::TripleoPackages
     - OS::TripleO::Services::TripleoFirewall
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::Collectd
 
 - name: CephStorage
   ServicesDefault:
@@ -168,24 +196,28 @@
     - OS::TripleO::Services::Kernel
     - OS::TripleO::Services::Ntp
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::TripleoPackages
     - OS::TripleO::Services::TripleoFirewall
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::Collectd
 
 - name: OsdCompute
   CountDefault: 0
   HostnameFormatDefault: '%stackname%-osd-compute-%index%'
+  disable_upgrade_deployment: True
   ServicesDefault:
-    - OS::TripleO::Services::CephOSD    
+    - OS::TripleO::Services::CephOSD
     - OS::TripleO::Services::CACerts
     - OS::TripleO::Services::CephClient
     - OS::TripleO::Services::CephExternal
     - OS::TripleO::Services::Timezone
     - OS::TripleO::Services::Ntp
     - OS::TripleO::Services::Snmp
+    - OS::TripleO::Services::Sshd
     - OS::TripleO::Services::NovaCompute
     - OS::TripleO::Services::NovaLibvirt
     - OS::TripleO::Services::Kernel
@@ -200,5 +232,5 @@
     - OS::TripleO::Services::OpenDaylightOvs
     - OS::TripleO::Services::SensuClient
     - OS::TripleO::Services::FluentdClient
-    - OS::TripleO::Services::VipHosts
-
+    - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::Collectd
