@@ -1,4 +1,4 @@
-# Valid for Newton/RH-OSP11 ONLY
+# Valid for Mitaka/RH-OSP11 ONLY
 # Specifies which roles (groups of nodes) will be deployed
 # Note this is used as an input to the various *.j2.yaml
 # jinja2 templates, so that they are converted into *.yaml
