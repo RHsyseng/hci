@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Filename:                nova_mem_cpu_calc.py
-# Supported Langauge(s):   Python 2.7.x
-# Time-stamp:              <2017-03-10 20:31:18 jfulton> 
+# Supported Langauge(s):   Python 2.7.x, Python 3.7.x
+# Time-stamp:              <2020-02-20 13:52:01 fultonj>
 # -------------------------------------------------------
 # This program was originally written by Ben England
 # -------------------------------------------------------
@@ -33,7 +33,7 @@ GB_overhead_per_guest = 0.5  # based on measurement in test environment
 cores_per_OSD = 1.0  # may be a little low in I/O intensive workloads
 
 def usage(msg):
-  print msg
+  print(msg)
   print(
     ("Usage: %s Total-host-RAM-GB Total-host-cores OSDs-per-server " + 
      "Avg-guest-size-GB Avg-guest-CPU-util") % sys.argv[0])
@@ -52,12 +52,12 @@ except ValueError:
 average_guest_util_percent = 100 * average_guest_util
 
 # print inputs
-print "Inputs:"
-print "- Total host RAM in GB: %d" % mem
-print "- Total host cores: %d" % cores
-print "- Ceph OSDs per host: %d" % osds
-print "- Average guest memory size in GB: %d" % average_guest_size
-print "- Average guest CPU utilization: %.0f%%" % average_guest_util_percent
+print("Inputs:")
+print("- Total host RAM in GB: %d" % mem)
+print("- Total host cores: %d" % cores)
+print("- Ceph OSDs per host: %d" % osds)
+print("- Average guest memory size in GB: %d" % average_guest_size)
+print("- Average guest CPU utilization: %.0f%%" % average_guest_util_percent)
 
 # calculate operating parameters based on memory constraints only
 left_over_mem = mem - (GB_per_OSD * osds)
@@ -72,18 +72,18 @@ cpu_allocation_ratio = guest_vCPUs / cores
 
 # display outputs including how to tune Nova reserved mem
 
-print "\nResults:"
-print "- number of guests allowed based on memory = %d" % number_of_guests
-print "- number of guest vCPUs allowed = %d" % int(guest_vCPUs)
-print "- nova.conf reserved_host_memory = %d MB" % nova_reserved_mem_MB
-print "- nova.conf cpu_allocation_ratio = %f" % cpu_allocation_ratio
+print("\nResults:")
+print("- number of guests allowed based on memory = %d" % number_of_guests)
+print("- number of guest vCPUs allowed = %d" % int(guest_vCPUs))
+print("- nova.conf reserved_host_memory = %d MB" % nova_reserved_mem_MB)
+print("- nova.conf cpu_allocation_ratio = %f" % cpu_allocation_ratio)
 
 if nova_reserved_mem_MB > (MB_per_GB * mem * 0.8):
-    print "ERROR: you do not have enough memory to run hyperconverged!"
+    print("ERROR: you do not have enough memory to run hyperconverged!")
     sys.exit(NOTOK)
 
 if cpu_allocation_ratio < 0.5:
-    print "WARNING: you may not have enough CPU to run hyperconverged!"
+    print("WARNING: you may not have enough CPU to run hyperconverged!")
 
 if cpu_allocation_ratio > 16.0:
     print(
@@ -91,4 +91,4 @@ if cpu_allocation_ratio > 16.0:
         "beyond OSP8 default of 16:1")
     sys.exit(NOTOK)
 
-print "\nCompare \"guest vCPUs allowed\" to \"guests allowed based on memory\" for actual guest count"
+print("\nCompare \"guest vCPUs allowed\" to \"guests allowed based on memory\" for actual guest count")
