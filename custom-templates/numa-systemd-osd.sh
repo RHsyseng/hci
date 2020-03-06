@@ -10,7 +10,8 @@ if [[ `hostname` = *"ceph"* ]] || [[ `hostname` = *"osd-compute"* ]]; then
     # If NUMA related packages are missing, then install them
     # If packages are baked into image, no install attempted
     for PKG in numactl hwloc; do 
-	if [[ ! $(rpm -q $PKG) ]]; then
+        rpm -q $PKG
+	if [[ $? > 0 ]]; then
 	    yum install -y $PKG
 	    if [[ ! $? ]]; then
 		echo "Unable to install $PKG with yum"
